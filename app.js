@@ -1,46 +1,32 @@
-const API_BASE = "https://script.google.com/macros/s/AKfycbx3s5j7YgqcWLGGGuzdtQy0Ayl3QHtHP7xwhEAv3N-BClUVFNZy2krd4WNyOy-kiQE/exec";
+// ★★ 구글 스프레드시트 WebApp URL ★★
+const API_URL = "https://script.google.com/macros/s/AKfycbx3s5j7YgqcWLGGGuzdtQy0Ayl3QHtHP7xwhEAv3N-BClUVFNZy2krd4WNyOy-kiQE/exec";
 
-async function loadSheet(sheetName) {
-  const res = await fetch(`${API_BASE}?sheet=${sheetName}`);
-  return res.json();
+// 시트 이름 (시트 탭 이름 그대로)
+const SHEET_NAME = "시트1";   // ← 실제 너의 스프레드시트 시트 이름으로 변경!
+
+// 데이터 불러오기 함수
+async function loadSheetData() {
+    try {
+        const response = await fetch(`${API_URL}?sheet=${SHEET_NAME}`);
+        const json = await response.json();
+
+        console.log("스프레드시트 데이터:", json.data);
+
+        // HTML에 데이터 표시 (원하는 방식으로 변경 가능)
+        const output = document.getElementById("sheet-data");
+        output.innerHTML = "";
+
+        json.data.forEach(row => {
+            let div = document.createElement("div");
+            div.className = "sheet-row";
+            div.innerHTML = JSON.stringify(row);
+            output.appendChild(div);
+        });
+
+    } catch (error) {
+        console.error("스프레드시트 불러오기 실패:", error);
+    }
 }
 
-function renderCards(list, elId, mapper) {
-  const el = document.getElementById(elId);
-  el.innerHTML = "";
-  list.forEach(item => {
-    el.innerHTML += mapper(item);
-  });
-}
-
-(async function init(){
-  const products = await loadSheet("Product_DB");
-  renderCards(products.data, "product-list", p => `
-    <div class="card">
-      <div>${p.상품명}</div>
-      <div>가격: ${p.가격}원</div>
-      <div>재고: ${p.재고}</div>
-      <img src="${p.이미지}" alt="">
-    </div>
-  `);
-
-  const orders = await loadSheet("Order_DB");
-  renderCards(orders.data, "order-list", o => `
-    <div class="card">
-      <div>주문번호: ${o.주문번호}</div>
-      <div>고객명: ${o.고객명}</div>
-      <div>금액: ${o.금액}원</div>
-      <div>상태: ${o.상태}</div>
-    </div>
-  `);
-
-  const shipping = await loadSheet("Shipping_DB");
-  renderCards(shipping.data, "shipping-list", s => `
-    <div class="card">
-      <div>주문번호: ${s.주문번호}</div>
-      <div>운송장: ${s.운송장}</div>
-      <div>상태: ${s.배송상태}</div>
-      <div>발송일: ${s.발송일}</div>
-    </div>
-  `);
-})();
+// 페이지 로드 시 자동 실행
+window.onload = loadSheetData;
