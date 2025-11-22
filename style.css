@@ -53,3 +53,18 @@ h2 {
   border-radius: 10px;
   margin-top: 8px;
 }
+#sheet-data {
+    padding: 20px;
+    background: #f5f5f5;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.sheet-row {
+    padding: 10px;
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
