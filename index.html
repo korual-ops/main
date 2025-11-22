@@ -1,36 +1,140 @@
-<!-- Orders Section -->
-<section id="orders" class="section">
-  <div class="section-head">
-    <h2>주문 DB (Order_DB)</h2>
-    <div class="actions">
-      <select id="order-filter" class="select">
-        <option value="all">전체</option>
-        <option value="paid">결제완료</option>
-        <option value="shipping">배송중</option>
-        <option value="done">배송완료</option>
-        <option value="delayed">배송지연</option>
-      </select>
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>KORUAL OPS Dashboard</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">KORUAL</div>
+      <div class="brand-sub">OPS Dashboard</div>
     </div>
-  </div>
 
-  <!-- 새 테이블 UI -->
-  <div class="table-wrap">
-    <table class="table" id="order-table">
-      <thead>
-        <tr>
-          <th>주문번호</th>
-          <th>고객명</th>
-          <th>상품/수량</th>
-          <th class="right">결제금액</th>
-          <th>채널</th>
-          <th>주문일시</th>
-          <th>배송상태</th>
-          <th>트래킹번호</th>
-        </tr>
-      </thead>
-      <tbody id="order-tbody"></tbody>
-    </table>
-  </div>
+    <nav class="nav">
+      <a href="#home" class="nav-link">Home</a>
+      <a href="#products" class="nav-link">Products</a>
+      <a href="#orders" class="nav-link">Orders</a>
+      <a href="#shipping" class="nav-link">Shipping</a>
+    </nav>
 
-  <div id="order-empty" class="empty hidden">주문 데이터가 없습니다.</div>
-</section>
+    <div class="top-actions">
+      <input id="global-search" class="input" placeholder="주문번호 / 고객명 / 트래킹번호 검색" />
+      <button id="refresh-btn" class="btn">새로고침</button>
+    </div>
+  </header>
+
+  <main class="container" id="home">
+
+    <!-- HERO / SUMMARY -->
+    <section class="hero section">
+      <div class="hero-left">
+        <h1>KORUAL 운영 대시보드</h1>
+        <p class="muted">
+          Google Sheets DB를 실시간으로 불러와 자동 갱신합니다.
+        </p>
+        <div id="last-updated" class="chip">Last updated: -</div>
+        <div class="chip">자동 연동: Google Sheet → Web</div>
+      </div>
+
+      <div class="hero-right stats">
+        <div class="stat-card">
+          <div class="stat-title">오늘 주문수</div>
+          <div id="stat-today-orders" class="stat-value">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">오늘 매출(KRW)</div>
+          <div id="stat-today-sales" class="stat-value">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">배송중</div>
+          <div id="stat-shipping" class="stat-value">0</div>
+        </div>
+        <div class="stat-card danger">
+          <div class="stat-title">배송지연</div>
+          <div id="stat-delayed" class="stat-value">0</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section id="products" class="section">
+      <div class="section-head">
+        <h2>상품 DB (Product_DB)</h2>
+        <div class="actions">
+          <select id="product-sort" class="select">
+            <option value="name">이름순</option>
+            <option value="price_desc">가격 높은순</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="product-list" class="grid"></div>
+      <div id="product-empty" class="empty hidden">상품 데이터가 없습니다.</div>
+    </section>
+
+    <!-- ORDERS -->
+    <section id="orders" class="section">
+      <div class="section-head">
+        <h2>주문 DB (Order_DB)</h2>
+        <div class="actions">
+          <select id="order-filter" class="select">
+            <option value="all">전체</option>
+            <option value="paid">결제완료</option>
+            <option value="shipping">배송중</option>
+            <option value="done">배송완료</option>
+            <option value="delayed">배송지연</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="table" id="order-table">
+          <thead>
+            <tr>
+              <th>주문번호</th>
+              <th>고객명</th>
+              <th>상품/수량</th>
+              <th class="right">결제금액</th>
+              <th>채널</th>
+              <th>주문일시</th>
+              <th>배송상태</th>
+              <th>트래킹번호</th>
+            </tr>
+          </thead>
+          <tbody id="order-tbody"></tbody>
+        </table>
+      </div>
+
+      <div id="order-empty" class="empty hidden">주문 데이터가 없습니다.</div>
+    </section>
+
+    <!-- SHIPPING -->
+    <section id="shipping" class="section">
+      <div class="section-head">
+        <h2>배송 DB (Shipping_DB)</h2>
+        <div class="actions">
+          <select id="shipping-filter" class="select">
+            <option value="all">전체</option>
+            <option value="shipping">배송중</option>
+            <option value="done">배송완료</option>
+            <option value="delayed">배송지연</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="shipping-list" class="grid"></div>
+      <div id="shipping-empty" class="empty hidden">배송 데이터가 없습니다.</div>
+    </section>
+
+    <footer class="footer">
+      <div class="muted">KORUAL OPS · Sheets Auto Sync Dashboard</div>
+    </footer>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
