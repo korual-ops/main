@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KORUAL Ops Center</title>
+  <link rel="stylesheet" href="style.css" />
+  <meta name="theme-color" content="#0b0b0c">
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">KORUAL</div>
+      <div class="subtitle">Ops Center</div>
+    </div>
+
+    <nav class="nav">
+      <a href="#dashboard">대시보드</a>
+      <a href="#products">상품</a>
+      <a href="#orders">주문</a>
+      <a href="#shipping">배송</a>
+    </nav>
+
+    <div class="right">
+      <input id="global-search" class="search" placeholder="주문번호/고객명/운송장 검색" />
+      <button id="refresh-btn" class="btn">새로고침</button>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section id="dashboard" class="section">
+      <div class="section-head">
+        <h2>오늘 현황</h2>
+        <div class="chip-row">
+          <div class="chip">자동 연동: Google Sheet → Web</div>
+          <div class="chip" id="last-updated">Last updated: -</div>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-label">오늘 주문</div>
+          <div class="stat-value" id="stat-today-orders">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">오늘 매출</div>
+          <div class="stat-value" id="stat-today-sales">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">배송중</div>
+          <div class="stat-value" id="stat-shipping">0</div>
+        </div>
+        <div class="stat-card danger">
+          <div class="stat-label">배송지연</div>
+          <div class="stat-value" id="stat-delayed">0</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="products" class="section">
+      <div class="section-head">
+        <h2>상품 DB (Product_DB)</h2>
+        <div class="actions">
+          <select id="product-sort" class="select">
+            <option value="name">이름순</option>
+            <option value="price_desc">가격 높은순</option>
+            <option value="stock_asc">재고 적은순</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="product-list" class="grid"></div>
+      <div id="product-empty" class="empty hidden">상품 데이터가 없습니다.</div>
+    </section>
+
+    <section id="orders" class="section">
+      <div class="section-head">
+        <h2>주문 DB (Order_DB)</h2>
+        <div class="actions">
+          <select id="order-filter" class="select">
+            <option value="all">전체</option>
+            <option value="paid">결제완료</option>
+            <option value="shipping">배송중</option>
+            <option value="done">배송완료</option>
+            <option value="delayed">배송지연</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="order-list" class="grid"></div>
+      <div id="order-empty" class="empty hidden">주문 데이터가 없습니다.</div>
+    </section>
+
+    <section id="shipping" class="section">
+      <div class="section-head">
+        <h2>배송 DB (Shipping_DB)</h2>
+        <div class="actions">
+          <select id="shipping-filter" class="select">
+            <option value="all">전체</option>
+            <option value="shipping">배송중</option>
+            <option value="done">배송완료</option>
+            <option value="delayed">배송지연</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="shipping-list" class="grid"></div>
+      <div id="shipping-empty" class="empty hidden">배송 데이터가 없습니다.</div>
+    </section>
+
+    <footer class="footer">
+      <div>© KORUAL Ops Center</div>
+      <div class="muted">Sheet 기반 자동 운영</div>
+    </footer>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
